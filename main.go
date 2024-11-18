@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
@@ -68,7 +70,16 @@ import (
 // }
 func main() {
 	// Initialize database
-	dsn := "host=localhost user=posttest password=postgres dbname=csci341_ass3 port=5432 sslmode=disable"
+	dbHost := os.Getenv("DB_HOST") // Example: dpg-cstj47t6147c73eli48g-a
+	dbUser := os.Getenv("DB_USER") // Example: posttest
+	dbPassword := os.Getenv("DB_PASSWORD") // Example: WdAf2MsIodvbj0vxd0qRS0oqfSS88Syb
+	dbName := os.Getenv("DB_NAME") // Example: csci341_as3
+	dbPort := os.Getenv("DB_PORT") // Example: 5432
+	// dsn := "host=localhost user=posttest password=postgres dbname=csci341_ass3 port=5432 sslmode=disable"
+	dsn := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		dbHost, dbUser, dbPassword, dbName, dbPort,
+	)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
