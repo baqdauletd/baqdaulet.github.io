@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Patient Disease</title>
+</head>
+<body>
+    <h1>Edit Patient Disease</h1>
+    <form method="POST" action="/patientdisease/update">
+        <input type="hidden" name="original_email" value="{{.PatientDisease.Email}}">
+        <label>Email:</label>
+        <select name="email" required>
+            {{range .Patients}}
+            <option value="{{.Email}}" {{if eq .Email $.PatientDisease.Email}}selected{{end}}>{{.Email}}</option>
+            {{end}}
+        </select><br>
+
+        <label>Disease Code:</label>
+        <select name="disease_code" required>
+            {{range .Diseases}}
+            <option value="{{.DiseaseCode}}" {{if eq .DiseaseCode $.PatientDisease.DiseaseCode}}selected{{end}}>
+                {{.DiseaseCode}}
+            </option>
+            {{end}}
+        </select><br>
+
+        <button type="submit">Update Patient Disease</button>
+    </form>
+</body>
+</html>

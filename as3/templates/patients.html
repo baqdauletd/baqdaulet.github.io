@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Patients</title>
+    <style>
+        /* Horizontal navigation styling */
+        nav ul {
+            list-style-type: none; /* Remove bullets */
+            padding: 0; /* Remove padding */
+            margin: 0; /* Remove margin */
+            display: flex; /* Display as a flex container */
+        }
+    
+        nav ul li {
+            margin-right: 20px; /* Add spacing between links */
+        }
+    
+        nav ul li a {
+            text-decoration: none; /* Remove underline from links */
+            color: blue; /* Link color */
+            font-weight: bold; /* Bold text */
+        }
+    
+        nav ul li a:hover {
+            text-decoration: underline; /* Add underline on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Patients</h1>
+    <nav>
+        <ul>
+            <li><a href="/users">Users</a></li>
+            <li><a href="/doctors">Doctors</a></li>
+            <li><a href="/patients">Patients</a></li>
+            <li><a href="/country">Countries</a></li>
+            <li><a href="/publicServants">Public Servants</a></li>
+            <li><a href="/diseasetype">Disease Types</a></li>
+            <li><a href="/disease">Diseases</a></li>
+            <li><a href="/specialize">Specializations</a></li>
+            <li><a href="/record">Records</a></li>
+            <li><a href="/discover">Discovered</a></li>
+            <li><a href="/patientdisease">Patient Diseases</a></li>
+        </ul>
+    </nav>
+
+    <form method="POST" action="/patients/add">
+        <label>Select User:</label>
+        <select name="email">
+            {{range .Users}}
+            <option value="{{.Email}}">{{.Name}} {{.Surname}}</option>
+            {{end}}
+        </select><br>
+        <button type="submit">Add Patient</button>
+    </form>
+
+    <h2>All Patients</h2>
+    <ul>
+        {{range .Patients}}
+        <li>
+            {{.User.Name}} {{.User.Surname}}
+            <form method="POST" action="/patients/delete" style="display:inline;">
+                <input type="hidden" name="email" value="{{.Email}}">
+                <button type="submit">Delete</button>
+            </form>
+            <a href="/patients/edit?email={{.Email}}">
+                <button>Edit</button>
+            </a>
+        </li>
+        {{end}}
+    </ul>
+    
+</body>
+</html>

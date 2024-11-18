@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Specialization</title>
+</head>
+<body>
+    <h1>Edit Specialization</h1>
+
+    <form method="POST" action="/specialize/update">
+        <input type="hidden" name="original_id" value="{{.Specialize.ID}}">
+        <label>Disease Type:</label>
+        <select name="id" required>
+            {{range .DiseaseTypes}}
+            <option value="{{.ID}}" {{if eq .ID $.Specialize.ID}}selected{{end}}>{{.ID}}</option>
+            {{end}}
+        </select><br>
+        <label>Doctor Email:</label>
+        <select name="doctor_email" required>
+            {{range .Doctors}}
+            <option value="{{.Email}}" {{if eq .Email $.Specialize.DoctorEmail}}selected{{end}}>{{.Email}}</option>
+            {{end}}
+        </select><br>
+        <button type="submit">Update Specialization</button>
+    </form>
+</body>
+</html>

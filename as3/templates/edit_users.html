@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    
+</head>
+<body>
+    <h1>Edit User</h1>
+
+    <form action="/users/update" method="POST" >
+        <input type="hidden" name="original_email" value="{{.Email}}">
+        <label>Email:</label>
+        <input type="text" name="email" value="{{.Email}}" required><br>
+        <label>Name:</label>
+        <input type="text" name="name" value="{{.Name}}" required><br>
+        <label>Surname:</label>
+        <input type="text" name="surname" value="{{.Surname}}" required><br>
+        <label>Salary:</label>
+        <input type="number" name="salary" value="{{.Salary}}" required><br>
+        <label>Phone:</label>
+        <input type="text" name="phone" value="{{.Phone}}"><br>
+        <label>Country:</label>
+        <input type="text" name="country" value="{{.Cname}}" required><br>
+        <button type="submit">Update User</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record</title>
+    <style>
+        /* Horizontal navigation styling */
+        nav ul {
+            list-style-type: none; /* Remove bullets */
+            padding: 0; /* Remove padding */
+            margin: 0; /* Remove margin */
+            display: flex; /* Display as a flex container */
+        }
+    
+        nav ul li {
+            margin-right: 20px; /* Add spacing between links */
+        }
+    
+        nav ul li a {
+            text-decoration: none; /* Remove underline from links */
+            color: blue; /* Link color */
+            font-weight: bold; /* Bold text */
+        }
+    
+        nav ul li a:hover {
+            text-decoration: underline; /* Add underline on hover */
+        }
+      </style>
+</head>
+<body>
+    <h1>Record</h1>
+    <nav>
+        <ul>
+            <li><a href="/users">Users</a></li>
+            <li><a href="/doctors">Doctors</a></li>
+            <li><a href="/patients">Patients</a></li>
+            <li><a href="/country">Countries</a></li>
+            <li><a href="/publicServants">Public Servants</a></li>
+            <li><a href="/diseasetype">Disease Types</a></li>
+            <li><a href="/disease">Diseases</a></li>
+            <li><a href="/specialize">Specializations</a></li>
+            <li><a href="/record">Records</a></li>
+            <li><a href="/discover">Discovered</a></li>
+            <li><a href="/patientdisease">Patient Diseases</a></li>
+        </ul>
+    </nav>
+    <table border="1">
+        <tr>
+            <th>Email</th>
+            <th>Country</th>
+            <th>Disease Code</th>
+            <th>Total Deaths</th>
+            <th>Total Patients</th>
+            <th>Actions</th>
+        </tr>
+        {{range .Records}}
+        <tr>
+            <td>{{.Email}}</td>
+            <td>{{.Cname}}</td>
+            <td>{{.DiseaseCode}}</td>
+            <td>{{.TotalDeaths}}</td>
+            <td>{{.TotalPatients}}</td>
+            <td>
+                <form method="GET" action="/record/edit">
+                    <input type="hidden" name="email" value="{{.Email}}">
+                    <input type="hidden" name="cname" value="{{.Cname}}">
+                    <input type="hidden" name="disease_code" value="{{.DiseaseCode}}">
+                    <button type="submit">Edit</button>
+                </form>
+                <form method="POST" action="/record/delete">
+                    <input type="hidden" name="email" value="{{.Email}}">
+                    <input type="hidden" name="cname" value="{{.Cname}}">
+                    <input type="hidden" name="disease_code" value="{{.DiseaseCode}}">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {{end}}
+    </table>
+
+    <h2>Add New Record</h2>
+    <form method="POST" action="/record/add">
+        <label>Email:</label>
+        <select name="email" required>
+            {{range .PublicServants}}
+            <option value="{{.Email}}">{{.Email}} - {{.Name}}</option>
+            {{end}}
+        </select><br>
+        <label>Country:</label>
+        <select name="cname" required>
+            {{range .Countries}}
+            <option value="{{.Cname}}">{{.Cname}}</option>
+            {{end}}
+        </select><br>
+        <label>Disease Code:</label>
+        <select name="disease_code" required>
+            {{range .Diseases}}
+            <option value="{{.DiseaseCode}}">{{.DiseaseCode}} - {{.Description}}</option>
+            {{end}}
+        </select><br>
+        <label>Total Deaths:</label>
+        <input type="number" name="total_deaths" required><br>
+        <label>Total Patients:</label>
+        <input type="number" name="total_patients" required><br>
+        <button type="submit">Add Record</button>
+    </form>
+</body>
+</html>

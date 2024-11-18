@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Disease Type</title>
+</head>
+<body>
+    <h1>Edit Disease Type</h1>
+
+    <form method="POST" action="/diseasetype/update">
+        <input type="hidden" name="id" value="{{.ID}}">
+        <label>ID:</label>
+        <input type="number" name="id" value="{{.ID}}" readonly><br>
+        <label>Description:</label>
+        <input type="text" name="description" value="{{.Description}}" required><br>
+        <button type="submit">Update Disease Type</button>
+    </form>
+</body>
+</html>

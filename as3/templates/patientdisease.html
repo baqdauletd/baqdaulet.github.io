@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Disease</title>
+    <style>
+        /* Horizontal navigation styling */
+        nav ul {
+            list-style-type: none; /* Remove bullets */
+            padding: 0; /* Remove padding */
+            margin: 0; /* Remove margin */
+            display: flex; /* Display as a flex container */
+        }
+    
+        nav ul li {
+            margin-right: 20px; /* Add spacing between links */
+        }
+    
+        nav ul li a {
+            text-decoration: none; /* Remove underline from links */
+            color: blue; /* Link color */
+            font-weight: bold; /* Bold text */
+        }
+    
+        nav ul li a:hover {
+            text-decoration: underline; /* Add underline on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Patient Disease Management</h1>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="/users">Users</a></li>
+            <li><a href="/doctors">Doctors</a></li>
+            <li><a href="/patients">Patients</a></li>
+            <li><a href="/country">Countries</a></li>
+            <li><a href="/publicServants">Public Servants</a></li>
+            <li><a href="/diseasetype">Disease Types</a></li>
+            <li><a href="/disease">Diseases</a></li>
+            <li><a href="/specialize">Specializations</a></li>
+            <li><a href="/record">Records</a></li>
+            <li><a href="/discover">Discovered</a></li>
+            <li><a href="/patientdisease">Patient Diseases</a></li>
+        </ul>
+    </nav>
+
+    <!-- List of Patient Diseases -->
+    <h2>All Patient Diseases</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Disease Code</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .PatientDiseases}}
+            <tr>
+                <td>{{.Email}}</td>
+                <td>{{.DiseaseCode}}</td>
+                <td>
+                    <!-- Edit Button -->
+                    <form method="GET" action="/patientdisease/edit" style="display:inline;">
+                        <input type="hidden" name="email" value="{{.Email}}">
+                        <input type="hidden" name="disease_code" value="{{.DiseaseCode}}">
+                        <button type="submit">Edit</button>
+                    </form>
+
+                    <!-- Delete Button -->
+                    <form method="POST" action="/patientdisease/delete" style="display:inline;">
+                        <input type="hidden" name="email" value="{{.Email}}">
+                        <input type="hidden" name="disease_code" value="{{.DiseaseCode}}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+
+    <!-- Add New Patient Disease -->
+    <h2>Add New Patient Disease</h2>
+    <form method="POST" action="/patientdisease/add">
+        <label>Email:</label>
+        <select name="email" required>
+            {{range .Patients}}
+            <option value="{{.Email}}">{{.Email}}</option>
+            {{end}}
+        </select><br>
+
+        <label>Disease Code:</label>
+        <select name="disease_code" required>
+            {{range .Diseases}}
+            <option value="{{.DiseaseCode}}">{{.DiseaseCode}}</option>
+            {{end}}
+        </select><br>
+
+        <button type="submit">Add Patient Disease</button>
+    </form>
+</body>
+</html>

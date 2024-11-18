@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users Management</title>
+
+  <style>
+    /* Horizontal navigation styling */
+    nav ul {
+        list-style-type: none; /* Remove bullets */
+        padding: 0; /* Remove padding */
+        margin: 0; /* Remove margin */
+        display: flex; /* Display as a flex container */
+    }
+
+    nav ul li {
+        margin-right: 20px; /* Add spacing between links */
+    }
+
+    nav ul li a {
+        text-decoration: none; /* Remove underline from links */
+        color: blue; /* Link color */
+        font-weight: bold; /* Bold text */
+    }
+
+    nav ul li a:hover {
+        text-decoration: underline; /* Add underline on hover */
+    }
+  </style>
+</head>
+<body>
+  <h1>Users Management</h1>
+
+  <nav>
+    <ul>
+        <li><a href="/users">Users</a></li>
+        <li><a href="/doctors">Doctors</a></li>
+        <li><a href="/patients">Patients</a></li>
+        <li><a href="/country">Countries</a></li>
+        <li><a href="/publicServants">Public Servants</a></li>
+        <li><a href="/diseasetype">Disease Types</a></li>
+        <li><a href="/disease">Diseases</a></li>
+        <li><a href="/specialize">Specializations</a></li>
+        <li><a href="/record">Records</a></li>
+        <li><a href="/discover">Discovered</a></li>
+        <li><a href="/patientdisease">Patient Diseases</a></li>
+    </ul>
+</nav>
+
+  <!-- Add User Form -->
+  <form action="/users/add" method="POST">
+    <label>Email: <input type="email" name="email" required></label><br>
+    <label>Name: <input type="text" name="name" required></label><br>
+    <label>Surname: <input type="text" name="surname" required></label><br>
+    <label>Salary: <input type="number" name="salary" required></label><br>
+    <label>Phone: <input type="text" name="phone"></label><br>
+    <label>Country: <input type="text" name="cname" required></label><br>
+    <button type="submit">Add User</button>
+  </form>
+
+  <h2>All Users</h2>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Salary</th>
+        <th>Phone</th>
+        <th>Country</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .}}
+      <tr>
+        <td>{{.Email}}</td>
+        <td>{{.Name}}</td>
+        <td>{{.Surname}}</td>
+        <td>{{.Salary}}</td>
+        <td>{{.Phone}}</td>
+        <td>{{.Cname}}</td>
+        <td>
+          <form action="/users/delete" method="POST" style="display:inline;">
+            <input type="hidden" name="email" value="{{.Email}}">
+            <button type="submit">Delete</button>
+          </form>
+          <form method="GET" action="/users/edit" style="display:inline;">
+            <input type="hidden" name="email" value="{{.Email}}">
+            <button type="submit">Edit</button>
+        </form>
+        </td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+</body>
+</html>

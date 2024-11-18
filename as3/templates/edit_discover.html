@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Discover</title>
+</head>
+<body>
+    <h1>Edit Discover</h1>
+    <form method="POST" action="/discover/update">
+        <input type="hidden" name="original_cname" value="{{.Discover.Cname}}">
+        <input type="hidden" name="original_disease_code" value="{{.Discover.DiseaseCode}}">
+
+        <label>Country:</label>
+        <select name="cname" required>
+            {{range .Countries}}
+            <option value="{{.Cname}}" {{if eq .Cname $.Discover.Cname}}selected{{end}}>{{.Cname}}</option>
+            {{end}}
+        </select><br>
+
+        <label>Disease Code:</label>
+        <select name="disease_code" required>
+            {{range .Diseases}}
+            <option value="{{.DiseaseCode}}" {{if eq .DiseaseCode $.Discover.DiseaseCode}}selected{{end}}>{{.DiseaseCode}} - {{.Description}}</option>
+            {{end}}
+        </select><br>
+
+        <label>First Encounter Date:</label>
+        <input type="date" name="first_enc_date" value="{{.Discover.FirstEncDate}}" required><br>
+        <button type="submit">Update Discover</button>
+    </form>
+</body>
+</html>

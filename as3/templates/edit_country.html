@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Country</title>
+</head>
+<body>
+    <h1>Edit Country</h1>
+
+    <form method="POST" action="/country/update">
+        <input type="hidden" name="original_cname" value="{{.Cname}}">
+        <label>Country Name:</label>
+        <input type="text" name="cname" value="{{.Cname}}" required><br>
+        <label>Population:</label>
+        <input type="number" name="population" value="{{.Population}}" required><br>
+        <button type="submit">Update Country</button>
+    </form>
+</body>
+</html>

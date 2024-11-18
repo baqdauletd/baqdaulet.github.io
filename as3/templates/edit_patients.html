@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Patient</title>
+</head>
+<body>
+    <h1>Edit Patient</h1>
+    <form method="POST" action="/patients/update">
+        <input type="hidden" name="original_email" value="{{.Patient.Email}}">
+        <label>Email:</label>
+        <!-- <input type="text" name="email" value="{{.Patient.Email}}" required><br> -->
+        <select name="email" >
+            {{range .Users}}
+            <option value="{{.Email}}" {{if eq .Email $.Patient.Email}}selected{{end}}>{{.Email}}</option>
+            {{end}}
+        </select><br>
+        <button type="submit">Update Patient</button>
+    </form>
+</body>
+</html>

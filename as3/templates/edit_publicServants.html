@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Public Servant</title>
+</head>
+<body>
+    <h1>Edit Public Servant</h1>
+    <form method="POST" action="/publicServants/update">
+        <input type="hidden" name="original_email" value="{{.PublicServant.Email}}">
+        <label>Email:</label>
+        <!-- <input type="text" name="email" required><br> -->
+        <select name="email" required>
+            {{range .Users}}
+            <option value="{{.Email}}" {{if eq .Email $.PublicServant.Email}}selected{{end}}>{{.Email}}</option>
+            {{end}}
+        </select><br>
+        <label>Department:</label>
+        <select name="department">
+            <option value="Health" {{if eq .PublicServant.Department "Health"}}selected{{end}}>Health</option>
+            <option value="Research" {{if eq .PublicServant.Department "Research"}}selected{{end}}>Research</option>
+            <option value="Admin" {{if eq .PublicServant.Department "Admin"}}selected{{end}}>Admin</option>
+        </select><br>
+        <button type="submit">Update Public Servant</button>
+    </form>
+</body>
+</html>

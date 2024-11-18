@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Management</title>
+    <style>
+        /* Horizontal navigation styling */
+        nav ul {
+            list-style-type: none; /* Remove bullets */
+            padding: 0; /* Remove padding */
+            margin: 0; /* Remove margin */
+            display: flex; /* Display as a flex container */
+        }
+    
+        nav ul li {
+            margin-right: 20px; /* Add spacing between links */
+        }
+    
+        nav ul li a {
+            text-decoration: none; /* Remove underline from links */
+            color: blue; /* Link color */
+            font-weight: bold; /* Bold text */
+        }
+    
+        nav ul li a:hover {
+            text-decoration: underline; /* Add underline on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Country Management</h1>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="/users">Users</a></li>
+            <li><a href="/doctors">Doctors</a></li>
+            <li><a href="/patients">Patients</a></li>
+            <li><a href="/country">Countries</a></li>
+            <li><a href="/publicServants">Public Servants</a></li>
+            <li><a href="/diseasetype">Disease Types</a></li>
+            <li><a href="/disease">Diseases</a></li>
+            <li><a href="/specialize">Specializations</a></li>
+            <li><a href="/record">Records</a></li>
+            <li><a href="/discover">Discovered</a></li>
+            <li><a href="/patientdisease">Patient Diseases</a></li>
+        </ul>
+    </nav>
+
+    <!-- List of Countries -->
+    <h2>All Countries</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Country Name</th>
+                <th>Population</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .}}
+            <tr>
+                <td>{{.Cname}}</td>
+                <td>{{.Population}}</td>
+                <td>
+                    <!-- Edit Button -->
+                    <form method="GET" action="/country/edit" style="display:inline;">
+                        <input type="hidden" name="cname" value="{{.Cname}}">
+                        <button type="submit">Edit</button>
+                    </form>
+
+                    <!-- Delete Button -->
+                    <form method="POST" action="/country/delete" style="display:inline;">
+                        <input type="hidden" name="cname" value="{{.Cname}}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+
+    <!-- Add New Country -->
+    <h2>Add New Country</h2>
+    <form method="POST" action="/country/add">
+        <label>Country Name:</label>
+        <input type="text" name="cname" required><br>
+        <label>Population:</label>
+        <input type="number" name="population" required><br>
+        <button type="submit">Add Country</button>
+    </form>
+</body>
+</html>

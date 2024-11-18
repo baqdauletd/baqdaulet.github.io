@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specialize Management</title>
+    <style>
+        /* Horizontal navigation styling */
+        nav ul {
+            list-style-type: none; /* Remove bullets */
+            padding: 0; /* Remove padding */
+            margin: 0; /* Remove margin */
+            display: flex; /* Display as a flex container */
+        }
+    
+        nav ul li {
+            margin-right: 20px; /* Add spacing between links */
+        }
+    
+        nav ul li a {
+            text-decoration: none; /* Remove underline from links */
+            color: blue; /* Link color */
+            font-weight: bold; /* Bold text */
+        }
+    
+        nav ul li a:hover {
+            text-decoration: underline; /* Add underline on hover */
+        }
+      </style>
+</head>
+<body>
+    <h1>Specialize Management</h1>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="/users">Users</a></li>
+            <li><a href="/doctors">Doctors</a></li>
+            <li><a href="/patients">Patients</a></li>
+            <li><a href="/country">Countries</a></li>
+            <li><a href="/publicServants">Public Servants</a></li>
+            <li><a href="/diseasetype">Disease Types</a></li>
+            <li><a href="/disease">Diseases</a></li>
+            <li><a href="/specialize">Specializations</a></li>
+            <li><a href="/record">Records</a></li>
+            <li><a href="/discover">Discovered</a></li>
+            <li><a href="/patientdisease">Patient Diseases</a></li>
+        </ul>
+    </nav>
+    <!-- List of Specializations -->
+    <h2>All Specializations</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Doctor Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .Specializations}}
+            <tr>
+                <td>{{.ID}}</td>
+                <td>{{.DoctorEmail}}</td>
+                <td>
+                    <form method="GET" action="/specialize/edit" style="display:inline;">
+                        <input type="hidden" name="id" value="{{.ID}}">
+                        <button type="submit">Edit</button>
+                    </form>
+                    <form method="POST" action="/specialize/delete" style="display:inline;">
+                        <input type="hidden" name="id" value="{{.ID}}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+
+    <!-- Add New Specialization -->
+    <h2>Add New Specialization</h2>
+    <form method="POST" action="/specialize/add">
+        <label>Disease Type:</label>
+        <select name="id" required>
+            {{range .DiseaseTypes}}
+            <option value="{{.ID}}">{{.ID}} - {{.Description}}</option>
+            {{end}}
+        </select><br>
+        <label>Doctor Email:</label>
+        <select name="doctor_email" required>
+            {{range .Doctors}}
+            <option value="{{.Email}}">{{.Email}}</option>
+            {{end}}
+        </select><br>
+        <button type="submit">Add Specialization</button>
+    </form>
+</body>
+</html>
