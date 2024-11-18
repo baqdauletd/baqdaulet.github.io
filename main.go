@@ -1,7 +1,6 @@
 package main
 
 import (
-	"os"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
