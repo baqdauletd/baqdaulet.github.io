@@ -76,9 +76,10 @@ func main() {
 	dbPort := "5432"
 	// dsn := "host=localhost user=posttest password=postgres dbname=csci341_ass3 port=5432 sslmode=disable"
 	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
 		dbHost, dbUser, dbPassword, dbName, dbPort,
 	)
+
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
