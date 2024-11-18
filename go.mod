@@ -1,6 +1,6 @@
 module as3
 
-go 1.23.3
+go 1.23.2
 
 require (
 	github.com/jackc/pgpassfile v1.0.0 // indirect
