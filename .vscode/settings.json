@@ -1,0 +1,40 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "assign2",
+            "database": "csci341_ass2",
+            "username": "posttest",
+            "password": "postgres",
+            "connectionTimeout": 30
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "assign3",
+            "database": "csci341_ass3",
+            "username": "posttest",
+            "password": "postgres"
+        },
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": true
+                }
+            },
+            "previewLimit": 50,
+            "server": "dpg-csu4kkt2ng1s73cceer0-a.singapore-postgres.render.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "testdb_q0pg",
+            "database": "testdb_q0pg",
+            "username": "posttest",
+            "password": "uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX"
+        }
+    ]
+}

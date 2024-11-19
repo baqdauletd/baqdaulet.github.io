@@ -81,7 +81,7 @@ func main() {
 	// postgresql://posttest:uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX@dpg-csu4kkt2ng1s73cceer0-a/testdb_q0pg
 	// postgresql://posttest:uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX@dpg-csu4kkt2ng1s73cceer0-a.singapore-postgres.render.com/testdb_q0pg
 	//dsn := "host=localhost user=posttest password=uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX dbname=testdb_q0pg port=5432 sslmode=require"
-	dsn := "host=dpg-csu4kkt2ng1s73cceer0-a user=posttest password=uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX dbname=testdb_q0pg port=5432 sslmode=disable"
+	dsn := "host=dpg-csu4kkt2ng1s73cceer0-a.singapore-postgres.render.com user=posttest password=uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX dbname=testdb_q0pg port=5432 sslmode=require"
 	// dsn := fmt.Sprintf(
 	// 	"host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
 	// 	dbHost, dbUser, dbPassword, dbName, dbPort,
@@ -106,7 +106,17 @@ func main() {
 	tmplSpecialize := template.Must(template.ParseFiles("templates/edit_specialize.html"))
 	tmplPatientDisease := template.Must(template.ParseFiles("templates/edit_patientdisease.html"))
 
-	// Register handlers
+	indexTmpl := template.Must(template.ParseFiles("templates/index.html"))
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		err := indexTmpl.Execute(w, nil)
+		if err != nil {
+			http.Error(w, "Error rendering template", http.StatusInternalServerError)
+			log.Println("Template rendering error:", err)
+		}
+	})
+
+	// handlers
 	http.HandleFunc("/users", handlers.UsersPage(db, tmpl.Lookup("users.html")))
 	http.HandleFunc("/users/add", handlers.AddUser(db))
 	http.HandleFunc("/users/delete", handlers.DeleteUser(db))
