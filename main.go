@@ -72,14 +72,14 @@ func main() {
 	// Initialize database
 	// dbHost := "dpg-cstj47t6147c73eli48g-a"
 	// dbUser := "posttest"
-	// dbPassword :="WdAf2MsIodvbj0vxd0qRS0oqfSS88Sy"
+	// dbPassword :="uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX"
 	// dbName := "csci341_as3"
 	// dbPort := "5432"
 
 	// dsn := os.Environ()
 
 	//postgresql://posttest:WdAf2MsIodvbj0vxd0qRSOoqfSS80Syb@dpg-cstj47t6l47c73eli48g-a/csci341_as3
-	dsn := "host=dpg-cstj47t6147c73eli48g-a user=posttest password=WdAf2MsIodvbj0vxd0qRS0oqfSS88Sy dbname=csci341_as3 port=5432 sslmode=require"
+	dsn := "host=dpg-csu4kkt2ng1s73cceer0-a user=posttest password=uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX dbname=testdb_q0pg port=5432 sslmode=require"
 	// dsn := fmt.Sprintf(
 	// 	"host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
 	// 	dbHost, dbUser, dbPassword, dbName, dbPort,
