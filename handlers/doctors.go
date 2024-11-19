@@ -10,7 +10,7 @@ import (
 
 type Doctor struct {
 	Email  string `gorm:"primaryKey"`
-	Degree string // Either "MD" or "PhD"
+	Degree string 
 	User   User   `gorm:"foreignKey:Email;constraint:OnDelete:CASCADE;"`
 }
 
@@ -66,7 +66,6 @@ func EditDoctor(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-        // fmt.Println("here")
         var users []User
 		db.Find(&users)
 
@@ -80,15 +79,6 @@ func EditDoctor(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 
 		tmpl.Execute(w, data)
         fmt.Print()
-        // fmt.Printf("Doctor: %+v\n", doctor)
-        // fmt.Printf("Users: %+v\n", users)
-
-
-        // tmpl.ExecuteTemplate(w, "edit_doctors.html", struct {
-        //     Doctor Doctor
-        //     Users    []User
-        // }{Doctor: doctor, Users: users})
-        // tmpl.ExecuteTemplate(w, "edit_doctors.html", doctor)
     }
 }
 

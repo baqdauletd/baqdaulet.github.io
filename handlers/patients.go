@@ -72,8 +72,6 @@ func EditPatient(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 
         tmpl.Execute(w, data)
 
-        // fmt.Printf("Patient: %+v\n", patient)
-        // fmt.Printf("Users: %+v\n", users)
     }
 }
 

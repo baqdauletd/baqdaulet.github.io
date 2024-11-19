@@ -17,7 +17,6 @@ func (Specialize) TableName() string {
     return "specialize"
 }
 
-// Displays the Specialize page
 func SpecializePage(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var specializations []Specialize
@@ -42,7 +41,6 @@ func SpecializePage(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-// Adds a new Specialization
 func AddSpecialize(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
@@ -63,7 +61,6 @@ func AddSpecialize(db *gorm.DB) http.HandlerFunc {
 	}
 }
 
-// Deletes a Specialization
 func DeleteSpecialize(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
@@ -74,7 +71,6 @@ func DeleteSpecialize(db *gorm.DB) http.HandlerFunc {
 	}
 }
 
-// Edits an existing Specialization
 func EditSpecialize(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
@@ -105,7 +101,6 @@ func EditSpecialize(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-// Updates a Specialization
 func UpdateSpecialize(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
@@ -121,10 +116,6 @@ func UpdateSpecialize(db *gorm.DB) http.HandlerFunc {
 			}
 			doctorEmail := r.FormValue("doctor_email")
 
-			// specialize := Specialize{
-			// 	ID:            id,
-			// 	DoctorEmail:   doctorEmail,
-			// }
 			db.Model(&Specialize{}).Where("id = ?", originalId).Updates(Specialize{ID: newId, DoctorEmail: doctorEmail})
 		}
 		http.Redirect(w, r, "/specialize", http.StatusSeeOther)

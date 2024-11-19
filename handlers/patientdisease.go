@@ -16,14 +16,11 @@ func (PatientDisease) TableName() string {
     return "patientdisease"
 }
 
-// Displays the PatientDisease page
 func PatientDiseasePage(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var patientDiseases []PatientDisease
 		db.Find(&patientDiseases)
 
-		// var users []User
-		// db.Find(&users)
 		var patients []Patient
 		db.Find(&patients)
 
@@ -44,7 +41,6 @@ func PatientDiseasePage(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-// Adds a new PatientDisease
 func AddPatientDisease(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
@@ -58,7 +54,6 @@ func AddPatientDisease(db *gorm.DB) http.HandlerFunc {
 	}
 }
 
-// Deletes a PatientDisease
 func DeletePatientDisease(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
@@ -70,7 +65,6 @@ func DeletePatientDisease(db *gorm.DB) http.HandlerFunc {
 	}
 }
 
-// Edits an existing PatientDisease
 func EditPatientDisease(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		email := r.URL.Query().Get("email")
@@ -83,8 +77,7 @@ func EditPatientDisease(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-		// var users []User
-		// db.Find(&users)
+
 		var patients []Patient
 		db.Find(&patients)
 
@@ -105,7 +98,7 @@ func EditPatientDisease(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-// Updates a PatientDisease
+
 func UpdatePatientDisease(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {

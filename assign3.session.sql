@@ -1,3 +1,18 @@
+-- DROP TABLE IF EXISTS Specialize;
+-- DROP TABLE IF EXISTS Doctor;
+-- DROP TABLE IF EXISTS Record;
+-- -- DROP TABLE IF EXISTS Patients;
+-- DROP TABLE IF EXISTS Discover;
+-- -- DROP TABLE IF EXISTS Disease;
+-- -- DROP TABLE IF EXISTS DiseaseType;
+-- -- DROP TABLE IF EXISTS Country;
+-- -- DROP TABLE IF EXISTS Users;
+-- DROP TABLE IF EXISTS PublicServant;
+-- -- DROP TABLE IF EXISTS PatientDisease;
+
+-- drop view patient_disease_view
+
+
 -- Deletion in reverse order of foreign key dependencies
 -- DELETE FROM Specialize;
 -- DELETE FROM Doctor;

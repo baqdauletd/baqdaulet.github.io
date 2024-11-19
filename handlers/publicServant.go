@@ -9,7 +9,7 @@ import (
 
 type PublicServant struct {
 	Email     string `gorm:"primaryKey"`
-	Department string // Options: Health, Research, Admin
+	Department string
 	User      User   `gorm:"foreignKey:Email;constraint:OnDelete:CASCADE;"`
 }
 
@@ -63,7 +63,6 @@ func EditPublicServant(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 			return
 		}
 
-        // fmt.Println("here")
         var users []User
 		db.Find(&users)
 
@@ -77,7 +76,6 @@ func EditPublicServant(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 
 		tmpl.Execute(w, data)
 
-        // tmpl.ExecuteTemplate(w, "edit_publicServants.html", publicServant)
     }
 }
 

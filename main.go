@@ -1,98 +1,85 @@
 package main
 
 import (
-	// "os"
-
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	// time"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
 
 	"as3/handlers"
-	"database/sql"
 	"fmt"
 
+	"database/sql"
 	_ "github.com/lib/pq"
 )
 
-// func main() {
-
-// 	connStr := "host=localhost port=5432 user=posttest password=postgres dbname=csci341_ass3 sslmode=disable"
-// 	db, err := sql.Open("postgres", connStr)
-// 	if err != nil {
-// 		fmt.Printf("Failed to connect to the database: %v", err)
-// 	}
-// 	defer db.Close()
-
-// 	fmt.Println("Basic1")
-// 	noBacteriaFunc(db)
-
-// 	fmt.Println("Basic2")
-// 	queryNonInfectious(db)
-
-// 	fmt.Println("Basic3")
-// 	queryDoctorsSpecializedInMoreThanTwoDiseases(db)
-
-// 	fmt.Println("Basic4")
-// 	queryAverageSalaryByCountryForVirology(db)
-
-// 	fmt.Println("Basic5")
-// 	queryDepartmentsWithCovidCases(db)
-
-// 	//fmt.Println("Basic6")
-// 	//doubleSalaryForCovidReporters(db)
-
-// 	// fmt.Println("Basic7")
-// 	// deleteUsersWithSpecificNames(db)
-
-// 	// fmt.Println("Basic8")
-// 	// createPrimaryIndexOnUsers(db)
-
-// 	// fmt.Println("Basic9")
-// 	// createSecondaryIndexOnDiseaseCode(db)
-
-// 	fmt.Println("Basic10")
-// 	queryTopCountriesByPatients(db)
-
-// 	fmt.Println("Basic11")
-// 	queryTotalCovidPatients(db)
-
-// 	// fmt.Println("Basic12")
-// 	// createPatientDiseaseView(db)
-
-// 	fmt.Println("Basic13")
-// 	queryPatientsFromView(db)
-
-// }
 func main() {
-	// Initialize database
-	// dbHost := "dpg-cstj47t6147c73eli48g-a"
-	// dbUser := "posttest"
-	// dbPassword :="uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX"
-	// dbName := "csci341_as3"
-	// dbPort := "5432"
+	//databaseQueriesRun()
+	appRun()
+}
 
-	// dsn := os.Environ()
+func databaseQueriesRun(){
+	// connStr := "host=localhost port=5432 user=posttest password=postgres dbname=csci341_ass3 sslmode=disable"
+	dsn := "host=dpg-csu4kkt2ng1s73cceer0-a.singapore-postgres.render.com user=posttest password=uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX dbname=testdb_q0pg port=5432 sslmode=require"
+	db, err := sql.Open("postgres", dsn)
+	if err != nil {
+		fmt.Printf("Failed to connect to the database: %v", err)
+	}
+	defer db.Close()
 
-	// postgresql://posttest:uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX@dpg-csu4kkt2ng1s73cceer0-a/testdb_q0pg
-	// postgresql://posttest:uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX@dpg-csu4kkt2ng1s73cceer0-a.singapore-postgres.render.com/testdb_q0pg
+	fmt.Println("Query1")
+	Basic1(db)
+
+	fmt.Println("Query2")
+	Basic2(db)
+
+	fmt.Println("Query3")
+	Basic3(db)
+
+	fmt.Println("Query4")
+	Basic4(db)
+
+	fmt.Println("Query5")
+	Basic5(db)
+
+	fmt.Println("Query6")
+	Basic6(db)
+
+	fmt.Println("Query7")
+	Basic7(db)
+
+	fmt.Println("Query8")
+	Basic8(db)
+
+	fmt.Println("Query8")
+	Basic9(db)
+
+	fmt.Println("Query10")
+	Basic10(db)
+
+	fmt.Println("Query11")
+	Basic11(db)
+
+	fmt.Println("Query12")
+	Basic12(db)
+
+	fmt.Println("Query13")
+	Basic13(db)
+}
+
+func appRun(){
 	//dsn := "host=localhost user=posttest password=uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX dbname=testdb_q0pg port=5432 sslmode=require"
 	dsn := "host=dpg-csu4kkt2ng1s73cceer0-a.singapore-postgres.render.com user=posttest password=uzUSpYHW2eqPNd9MT8WyeqAkEAUM3bbX dbname=testdb_q0pg port=5432 sslmode=require"
-	// dsn := fmt.Sprintf(
-	// 	"host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
-	// 	dbHost, dbUser, dbPassword, dbName, dbPort,
-	// )
+
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Parse templates
 	tmpl := template.Must(template.ParseGlob(filepath.Join("templates", "*.html")))
 	editUserTmpl := template.Must(template.ParseFiles("templates/edit_users.html"))
 	editPatientTmpl := template.Must(template.ParseFiles("templates/edit_patients.html"))
@@ -123,7 +110,6 @@ func main() {
 	http.HandleFunc("/users/edit", handlers.EditUserPage(db, editUserTmpl))
 	http.HandleFunc("/users/update", handlers.UpdateUser(db))
 
-	// http.HandleFunc("/patients", handlers.PatientsPage(db, tmpl))
 	http.HandleFunc("/patients", handlers.PatientsPage(db, tmpl.Lookup("patients.html")))
     http.HandleFunc("/patients/add", handlers.AddPatient(db))
     http.HandleFunc("/patients/delete", handlers.DeletePatient(db))
@@ -166,11 +152,11 @@ func main() {
 	http.HandleFunc("/discover/edit", handlers.EditDiscoverPage(db, tmplDiscover))
 	http.HandleFunc("/discover/update", handlers.UpdateDiscover(db))
 
-	http.HandleFunc("/record", handlers.DiscoverPage(db, tmpl.Lookup("record.html")))
-	http.HandleFunc("/record/add", handlers.AddDiscover(db))
-	http.HandleFunc("/record/delete", handlers.DeleteDiscover(db))
-	http.HandleFunc("/record/edit", handlers.EditDiscoverPage(db, tmplRecord))
-	http.HandleFunc("/record/update", handlers.UpdateDiscover(db))
+	http.HandleFunc("/record", handlers.RecordPage(db, tmpl.Lookup("record.html")))
+	http.HandleFunc("/record/add", handlers.AddRecord(db))
+	http.HandleFunc("/record/delete", handlers.DeleteRecord(db))
+	http.HandleFunc("/record/edit", handlers.EditRecordPage(db, tmplRecord))
+	http.HandleFunc("/record/update", handlers.UpdateRecord(db))
 	
 	http.HandleFunc("/specialize", handlers.SpecializePage(db, tmpl.Lookup("specialize.html")))
 	http.HandleFunc("/specialize/add", handlers.AddSpecialize(db))
@@ -188,20 +174,177 @@ func main() {
 	http.ListenAndServe(":8080", nil)
 }
 
+
 type Disease struct {
 	DiseaseCode string
 	Description string
 }
+type Doctor struct {
+	Name    string
+	Surname string
+	Degree  string
+}
+type CountryAvgSalary struct {
+	Country       string
+	AverageSalary float64
+}
+type DepartmentReport struct {
+	Department    string
+	EmployeeCount int
+}
 
-func noBacteriaFunc(db *sql.DB) {
-	query := `
+type CountryPatientCount struct {
+	Country       string
+	TotalPatients int
+}
+type PatientDisease struct {
+	Name    string
+	Surname string
+	Disease string
+}
+
+func queries(qu string) string{
+	query1 := `
 		SELECT d.disease_code, d.description
 		FROM disease d
 		JOIN discover di ON d.disease_code = di.disease_code
-		WHERE d.pathogen = 'bacteria' AND di.first_enc_date < '2020-01-01';
-		`
+		WHERE d.pathogen = 'Bacteria' AND di.first_enc_date < '2020-01-01';
+	`
 
-	rows, err := db.Query(query)
+	query2 := `
+		SELECT DISTINCT u.name, u.surname, d.degree
+		FROM doctor d
+		JOIN users u ON d.email = u.email
+		LEFT JOIN specialize s ON d.email = s.email
+		LEFT JOIN diseasetype dt ON s.id = dt.id
+		WHERE d.email NOT IN (
+			SELECT DISTINCT d.email
+			FROM doctor d
+			JOIN specialize s ON d.email = s.email
+			JOIN diseasetype dt ON s.id = dt.id
+			WHERE dt.description = 'Infectious Diseases'
+		);
+	`
+
+	query3 := `
+		SELECT u.name, u.surname, d.degree
+		FROM doctor d
+		JOIN users u ON d.email = u.email
+		JOIN specialize s ON d.email = s.email
+		GROUP BY u.name, u.surname, d.degree
+		HAVING COUNT(s.id) > 2;
+	`
+
+	query4 := `
+		SELECT u.cname, AVG(u.salary) AS avg_salary
+		FROM doctor d
+		JOIN users u ON d.email = u.email
+		JOIN specialize s ON d.email = s.email
+		JOIN diseasetype dt ON s.id = dt.id
+		WHERE dt.description = 'Viral Diseases'
+		GROUP BY u.cname;
+	`
+
+	query5 := `
+		SELECT ps.department, COUNT(DISTINCT ps.email) AS employee_count
+		FROM publicservant ps
+		JOIN record r ON ps.email = r.email
+		JOIN disease d ON r.disease_code = d.disease_code
+		WHERE d.disease_code = 'COVID-19'
+		GROUP BY ps.department;
+	`
+
+	query6 := `
+		UPDATE users
+		SET salary = salary * 2
+		WHERE email IN (
+			SELECT ps.email
+			FROM publicservant ps
+			JOIN record r ON ps.email = r.email
+			JOIN disease d ON r.disease_code = d.disease_code
+			WHERE d.disease_code = 'COVID-19'
+			GROUP BY ps.email
+			HAVING SUM(r.total_patients) > 3
+		);
+	`
+
+	query7 := `
+		DELETE FROM users
+		WHERE name ILIKE '%bek%'OR name ILIKE '%gul%';
+	`
+
+	query8 := `
+		ALTER TABLE users
+		ADD CONSTRAINT pk_users_email PRIMARY KEY (email);
+	`
+
+	query9 := `
+		CREATE INDEX idx_disease_code
+		ON disease (disease_code);
+	`
+
+	query10 := `
+		SELECT r.cname, SUM(r.total_patients) AS total_patients
+		FROM record r
+		GROUP BY r.cname
+		ORDER BY total_patients DESC
+		LIMIT 2;
+	`
+
+	query11 := `
+		SELECT SUM(r.total_patients) AS total_covid_patients
+		FROM record r
+		JOIN disease d ON r.disease_code = d.disease_code
+		WHERE d.disease_code = 'COVID-19';
+	`
+	query12 := `
+		CREATE VIEW patient_disease_view AS
+		SELECT u.name, u.surname, d.description AS disease
+		FROM patients p
+		JOIN users u ON p.email = u.email
+		JOIN patientdisease pd ON p.email = pd.email
+		JOIN disease d ON pd.disease_code = d.disease_code;
+	`
+	query13 := `
+		SELECT name, surname, disease
+		FROM patient_disease_view;
+	`
+	
+	if qu == "query1"{
+		return query1
+	} else if qu == "query2"{
+		return query2
+	} else if qu == "query3"{
+		return query3 
+	} else if qu == "query4"{
+		return query4
+	} else if qu == "query5"{
+		return query5
+	} else if qu == "query6"{
+		return query6
+	} else if qu == "query7"{
+		return query7
+	} else if qu == "query8"{
+		return query8
+	} else if qu == "query9"{
+		return query9
+	} else if qu == "query10"{
+		return query10
+	} else if qu == "query11"{
+		return query11
+	} else if qu == "query12"{
+		return query12
+	} else if qu == "query13"{
+		return query13
+	}
+	
+	return qu
+}
+
+
+func Basic1(db *sql.DB) {
+	query1 := queries("query1")
+	rows, err := db.Query(query1)
 	if err != nil {
 		fmt.Printf("Failed to execute query: %v", err)
 	}
@@ -222,67 +365,17 @@ func noBacteriaFunc(db *sql.DB) {
 		fmt.Printf("Error iterating over rows: %v", err)
 	}
 
-	fmt.Println("\nDiseases caused by 'bacteria' discovered before 2020:")
+	fmt.Println("Diseases caused by 'bacteria' discovered before 2020:")
 	for _, disease := range diseases {
 		fmt.Printf("Disease Code: %s, Description: %s\n", disease.DiseaseCode, disease.Description)
 	}
+	fmt.Println()
 }
 
-type Doctor struct {
-	Name    string
-	Surname string
-	Degree  string
-}
 
-func queryNonInfectious(db *sql.DB) {
-	query2 := `
-		SELECT DISTINCT u.name, u.surname, d.degree
-		FROM doctor d
-		JOIN users u ON d.email = u.email
-		LEFT JOIN specialize s ON d.email = s.email
-		LEFT JOIN diseasetype dt ON s.id = dt.id
-		WHERE d.email NOT IN (
-			SELECT DISTINCT d.email
-			FROM doctor d
-			JOIN specialize s ON d.email = s.email
-			JOIN diseasetype dt ON s.id = dt.id
-			WHERE dt.description = 'Infectious Diseases'
-		);
-	`
-
-	rows2, err := db.Query(query2)
-	if err != nil {
-		fmt.Printf("Failed to execute query: %v", err)
-	}
-	defer rows2.Close()
-
-	var doctors []Doctor
-	for rows2.Next() {
-		var doctor Doctor
-		err := rows2.Scan(&doctor.Name, &doctor.Surname, &doctor.Degree)
-		if err != nil {
-			fmt.Printf("Failed to scan row: %v", err)
-		}
-		doctors = append(doctors, doctor)
-	}
-
-	fmt.Println("\nDoctors not specialized in 'infectious diseases':")
-	for _, doctor := range doctors {
-		fmt.Printf("Doctor: %s %s, Degree: %s\n", doctor.Name, doctor.Surname, doctor.Degree)
-	}
-}
-
-func queryDoctorsSpecializedInMoreThanTwoDiseases(db *sql.DB) {
-	query := `
-		SELECT u.name, u.surname, d.degree
-		FROM doctor d
-		JOIN users u ON d.email = u.email
-		JOIN specialize s ON d.email = s.email
-		GROUP BY u.name, u.surname, d.degree
-		HAVING COUNT(s.id) > 2;
-	`
-
-	rows, err := db.Query(query)
+func Basic2(db *sql.DB) {
+	query2 := queries("query2")
+	rows, err := db.Query(query2)
 	if err != nil {
 		fmt.Printf("Failed to execute query: %v", err)
 	}
@@ -298,29 +391,42 @@ func queryDoctorsSpecializedInMoreThanTwoDiseases(db *sql.DB) {
 		doctors = append(doctors, doctor)
 	}
 
-	fmt.Println("\nDoctors specialized in more than 2 disease types:")
+	fmt.Println("Doctors not specialized in 'infectious diseases':")
 	for _, doctor := range doctors {
 		fmt.Printf("Doctor: %s %s, Degree: %s\n", doctor.Name, doctor.Surname, doctor.Degree)
 	}
+	fmt.Println()
 }
 
-type CountryAvgSalary struct {
-	Country       string
-	AverageSalary float64
+func Basic3(db *sql.DB) {
+	query3 := queries("query3")
+	rows, err := db.Query(query3)
+	if err != nil {
+		fmt.Printf("Failed to execute query: %v", err)
+	}
+	defer rows.Close()
+
+	var doctors []Doctor
+	for rows.Next() {
+		var doctor Doctor
+		err := rows.Scan(&doctor.Name, &doctor.Surname, &doctor.Degree)
+		if err != nil {
+			fmt.Printf("Failed to scan row: %v", err)
+		}
+		doctors = append(doctors, doctor)
+	}
+
+	fmt.Println("Doctors specialized in more than 2 disease types:")
+	for _, doctor := range doctors {
+		fmt.Printf("Doctor: %s %s, Degree: %s\n", doctor.Name, doctor.Surname, doctor.Degree)
+	}
+	fmt.Println()
 }
 
-func queryAverageSalaryByCountryForVirology(db *sql.DB) {
-	query := `
-		SELECT u.cname, AVG(u.salary) AS avg_salary
-		FROM doctor d
-		JOIN users u ON d.email = u.email
-		JOIN specialize s ON d.email = s.email
-		JOIN diseasetype dt ON s.id = dt.id
-		WHERE dt.description = 'Viral Diseases'
-		GROUP BY u.cname;
-	`
 
-	rows, err := db.Query(query)
+func Basic4(db *sql.DB) {
+	query4 := queries("query4")
+	rows, err := db.Query(query4)
 	if err != nil {
 		fmt.Printf("Failed to execute query: %v", err)
 	}
@@ -336,28 +442,17 @@ func queryAverageSalaryByCountryForVirology(db *sql.DB) {
 		results = append(results, result)
 	}
 
-	fmt.Println("\nAverage salary of doctors specialized in 'virology' by country:")
+	fmt.Println("Average salary of doctors specialized in 'virology' by country:")
 	for _, result := range results {
 		fmt.Printf("Country: %s, Average Salary: %.2f\n", result.Country, result.AverageSalary)
 	}
+	fmt.Println()
 }
 
-type DepartmentReport struct {
-	Department    string
-	EmployeeCount int
-}
 
-func queryDepartmentsWithCovidCases(db *sql.DB) {
-	query := `
-		SELECT ps.department, COUNT(DISTINCT ps.email) AS employee_count
-		FROM publicservant ps
-		JOIN record r ON ps.email = r.email
-		JOIN disease d ON r.disease_code = d.disease_code
-		WHERE d.disease_code = 'COVID-19'
-		GROUP BY ps.department;
-	`
-
-	rows, err := db.Query(query)
+func Basic5(db *sql.DB) {
+	query5 := queries("query5")
+	rows, err := db.Query(query5)
 	if err != nil {
 		fmt.Printf("Failed to execute query: %v", err)
 	}
@@ -373,94 +468,62 @@ func queryDepartmentsWithCovidCases(db *sql.DB) {
 		departments = append(departments, dept)
 	}
 
-	fmt.Println("\nDepartments with public servants reporting 'covid-19' cases:")
+	fmt.Println("Departments with public servants reporting 'covid-19' cases:")
 	for _, dept := range departments {
 		fmt.Printf("Department: %s, Employee Count: %d\n", dept.Department, dept.EmployeeCount)
 	}
+	fmt.Println()
 }
 
-func doubleSalaryForCovidReporters(db *sql.DB) {
-	query := `
-		UPDATE users
-		SET salary = salary * 2
-		WHERE email IN (
-			SELECT ps.email
-			FROM publicservant ps
-			JOIN record r ON ps.email = r.email
-			JOIN disease d ON r.disease_code = d.disease_code
-			WHERE d.disease_code = 'COVID-19'
-			GROUP BY ps.email
-			HAVING SUM(r.total_patients) > 3
-		);
-	`
-
-	result, err := db.Exec(query)
+func Basic6(db *sql.DB) {
+	query6 := queries("query6")
+	result, err := db.Exec(query6)
 	if err != nil {
 		fmt.Printf("Failed to execute query: %v", err)
 	}
 
 	rowsAffected, _ := result.RowsAffected()
-	fmt.Printf("\nUpdated salaries for %d public servants.\n", rowsAffected)
+	fmt.Printf("Updated salaries for %d public servants.\n", rowsAffected)
+	fmt.Println()
 }
 
-func deleteUsersWithSpecificNames(db *sql.DB) {
-	query := `
-		DELETE FROM users
-		WHERE name ILIKE '%bek%'OR name ILIKE '%gul%';
-	`
-
-	result, err := db.Exec(query)
+func Basic7(db *sql.DB) {
+	query7 := queries("query7")
+	result, err := db.Exec(query7)
 	if err != nil {
 		fmt.Printf("Failed to execute query: %v", err)
 	}
 
 	rowsAffected, _ := result.RowsAffected()
-	fmt.Printf("\nDeleted %d users with names containing 'bek' or 'gul'.\n", rowsAffected)
+	fmt.Printf("Deleted %d users with names containing 'bek' or 'gul'.\n", rowsAffected)
+	fmt.Println()
 }
 
-func createPrimaryIndexOnUsers(db *sql.DB) {
-	query := `
-		ALTER TABLE users
-		ADD CONSTRAINT pk_users_email PRIMARY KEY (email);
-	`
-
-	_, err := db.Exec(query)
+func Basic8(db *sql.DB) {
+	query8 := queries("query8")
+	_, err := db.Exec(query8)
 	if err != nil {
 		fmt.Printf("Failed to create primary index: %v", err)
 	} else {
-		fmt.Println("\nPrimary index on 'email' field in Users table created successfully.")
+		fmt.Println("Primary index on 'email' field in Users table created successfully.")
 	}
+	fmt.Println()
 }
 
-func createSecondaryIndexOnDiseaseCode(db *sql.DB) {
-	query := `
-		CREATE INDEX idx_disease_code
-		ON disease (disease_code);
-	`
-
-	_, err := db.Exec(query)
+func Basic9(db *sql.DB) {
+	query9 := queries("query9")
+	_, err := db.Exec(query9)
 	if err != nil {
 		fmt.Printf("Failed to create secondary index: %v", err)
 	} else {
-		fmt.Println("\nSecondary index on 'disease_code' field in Disease table created successfully.")
+		fmt.Println("Secondary index on 'disease_code' field in Disease table created successfully.")
 	}
+	fmt.Println()
 }
 
-type CountryPatientCount struct {
-	Country       string
-	TotalPatients int
-}
-
-func queryTopCountriesByPatients(db *sql.DB) {
-	query := `
-		SELECT r.cname, SUM(r.total_patients) AS total_patients
-		FROM record r
-		GROUP BY r.cname
-		ORDER BY total_patients DESC
-		LIMIT 2;
-	`
-
-	rows, err := db.Query(query)
+func Basic10(db *sql.DB) {
+	query10 := queries("query10")
+	rows, err := db.Query(query10)
 	if err != nil {
 		fmt.Printf("Failed to execute query: %v", err)
 	}
@@ -476,60 +539,41 @@ func queryTopCountriesByPatients(db *sql.DB) {
 		results = append(results, result)
 	}
 
-	fmt.Println("\nTop 2 countries with the highest number of total patients recorded:")
+	fmt.Println("Top 2 countries with the highest number of total patients recorded:")
 	for _, result := range results {
 		fmt.Printf("Country: %s, Total Patients: %d\n", result.Country, result.TotalPatients)
 	}
+	fmt.Println()
 }
 
-func queryTotalCovidPatients(db *sql.DB) {
-	query := `
-		SELECT SUM(r.total_patients) AS total_covid_patients
-		FROM record r
-		JOIN disease d ON r.disease_code = d.disease_code
-		WHERE d.disease_code = 'COVID-19';
-	`
 
+func Basic11(db *sql.DB) {
+	query11 := queries("query11")
 	var totalPatients int
-	err := db.QueryRow(query).Scan(&totalPatients)
+	err := db.QueryRow(query11).Scan(&totalPatients)
 	if err != nil {
 		fmt.Printf("Failed to execute query: %v", err)
 	}
 
-	fmt.Printf("\nTotal number of patients with 'covid-19': %d\n", totalPatients)
+	fmt.Printf("Total number of patients with 'covid-19': %d\n", totalPatients)
+	fmt.Println()
 }
 
-func createPatientDiseaseView(db *sql.DB) {
-	query := `
-		CREATE VIEW patient_disease_view AS
-		SELECT u.name, u.surname, d.description AS disease
-		FROM patients p
-		JOIN users u ON p.email = u.email
-		JOIN patientdisease pd ON p.email = pd.email
-		JOIN disease d ON pd.disease_code = d.disease_code;
-	`
-
-	_, err := db.Exec(query)
+func Basic12(db *sql.DB) {
+	query12 := queries("query12")
+	_, err := db.Exec(query12)
 	if err != nil {
 		fmt.Printf("Failed to create view: %v", err)
+		fmt.Println()
 	} else {
-		fmt.Println("\nView 'patient_disease_view' created successfully.")
+		fmt.Println("View 'patient_disease_view' created successfully.")
 	}
+	fmt.Println()
 }
 
-type PatientDisease struct {
-	Name    string
-	Surname string
-	Disease string
-}
-
-func queryPatientsFromView(db *sql.DB) {
-	query := `
-		SELECT name, surname, disease
-		FROM patient_disease_view;
-	`
-
-	rows, err := db.Query(query)
+func Basic13(db *sql.DB) {
+	query13 := queries("query13")
+	rows, err := db.Query(query13)
 	if err != nil {
 		fmt.Printf("Failed to execute query: %v", err)
 	}
@@ -545,8 +589,9 @@ func queryPatientsFromView(db *sql.DB) {
 		results = append(results, result)
 	}
 
-	fmt.Println("\nList of patients and their diseases from the view:")
+	fmt.Println("List of patients and their diseases from the view:")
 	for _, result := range results {
 		fmt.Printf("Patient: %s %s, Disease: %s\n", result.Name, result.Surname, result.Disease)
 	}
+	fmt.Println()
 }

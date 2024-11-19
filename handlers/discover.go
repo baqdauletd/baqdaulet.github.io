@@ -9,9 +9,9 @@ import (
 )
 
 type Discover struct {
-    Cname        string    `gorm:"primaryKey"` // References Country
-    DiseaseCode  string    `gorm:"primaryKey"` // References Disease
-    FirstEncDate string    // Date of discovery
+    Cname        string    `gorm:"primaryKey"`
+    DiseaseCode  string    `gorm:"primaryKey"`
+    FirstEncDate string 
 }
 
 func (Discover) TableName() string {
@@ -98,7 +98,6 @@ func UpdateDiscover(db *gorm.DB) http.HandlerFunc {
     return func(w http.ResponseWriter, r *http.Request) {
         if r.Method == http.MethodPost {
             originalCname := r.FormValue("original_cname")
-            // originalDiseaseCode := r.FormValue("original_disease_code")
 
             newCname := r.FormValue("cname")
             diseaseCode := r.FormValue("disease_code")

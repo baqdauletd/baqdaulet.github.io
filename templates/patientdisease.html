@@ -5,33 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Disease</title>
     <style>
-        /* Horizontal navigation styling */
         nav ul {
-            list-style-type: none; /* Remove bullets */
-            padding: 0; /* Remove padding */
-            margin: 0; /* Remove margin */
-            display: flex; /* Display as a flex container */
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
         }
     
         nav ul li {
-            margin-right: 20px; /* Add spacing between links */
+            margin-right: 20px;
         }
     
         nav ul li a {
-            text-decoration: none; /* Remove underline from links */
-            color: blue; /* Link color */
-            font-weight: bold; /* Bold text */
+            text-decoration: none;
+            color: blue;
+            font-weight: bold;
         }
     
         nav ul li a:hover {
-            text-decoration: underline; /* Add underline on hover */
+            text-decoration: underline;
         }
-    </style>
+      </style>
 </head>
 <body>
     <h1>Patient Disease Management</h1>
 
-    <!-- Navigation -->
     <nav>
         <ul>
             <li><a href="/users">Users</a></li>
@@ -48,7 +46,6 @@
         </ul>
     </nav>
 
-    <!-- List of Patient Diseases -->
     <h2>All Patient Diseases</h2>
     <table border="1">
         <thead>
@@ -64,14 +61,13 @@
                 <td>{{.Email}}</td>
                 <td>{{.DiseaseCode}}</td>
                 <td>
-                    <!-- Edit Button -->
+ 
                     <form method="GET" action="/patientdisease/edit" style="display:inline;">
                         <input type="hidden" name="email" value="{{.Email}}">
                         <input type="hidden" name="disease_code" value="{{.DiseaseCode}}">
                         <button type="submit">Edit</button>
                     </form>
 
-                    <!-- Delete Button -->
                     <form method="POST" action="/patientdisease/delete" style="display:inline;">
                         <input type="hidden" name="email" value="{{.Email}}">
                         <input type="hidden" name="disease_code" value="{{.DiseaseCode}}">
@@ -83,7 +79,6 @@
         </tbody>
     </table>
 
-    <!-- Add New Patient Disease -->
     <h2>Add New Patient Disease</h2>
     <form method="POST" action="/patientdisease/add">
         <label>Email:</label>

@@ -17,7 +17,6 @@ func (DiseaseType) TableName() string {
     return "diseasetype"
 }
 
-// Displays the DiseaseType page
 func DiseaseTypePage(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var diseaseTypes []DiseaseType
@@ -26,7 +25,7 @@ func DiseaseTypePage(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-// Adds a new DiseaseType
+
 func AddDiseaseType(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
@@ -45,7 +44,7 @@ func AddDiseaseType(db *gorm.DB) http.HandlerFunc {
 	}
 }
 
-// Deletes a DiseaseType
+
 func DeleteDiseaseType(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
@@ -56,7 +55,7 @@ func DeleteDiseaseType(db *gorm.DB) http.HandlerFunc {
 	}
 }
 
-// Edits an existing DiseaseType
+
 func EditDiseaseType(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
@@ -70,7 +69,6 @@ func EditDiseaseType(db *gorm.DB, tmpl *template.Template) http.HandlerFunc {
 	}
 }
 
-// Updates a DiseaseType
 func UpdateDiseaseType(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
