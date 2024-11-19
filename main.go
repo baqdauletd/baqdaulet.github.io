@@ -1,6 +1,7 @@
 package main
 
 import (
+	// "os"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -69,16 +70,20 @@ import (
 // }
 func main() {
 	// Initialize database
-	dbHost := "dpg-cstj47t6147c73eli48g-a"
-	dbUser := "posttest"
-	dbPassword :="WdAf2MsIodvbj0vxd0qRS0oqfSS88Sy"
-	dbName := "csci341_as3"
-	dbPort := "5432"
-	// dsn := "host=localhost user=posttest password=postgres dbname=csci341_ass3 port=5432 sslmode=disable"
-	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
-		dbHost, dbUser, dbPassword, dbName, dbPort,
-	)
+	// dbHost := "dpg-cstj47t6147c73eli48g-a"
+	// dbUser := "posttest"
+	// dbPassword :="WdAf2MsIodvbj0vxd0qRS0oqfSS88Sy"
+	// dbName := "csci341_as3"
+	// dbPort := "5432"
+
+	// dsn := os.Environ()
+
+	//postgresql://posttest:WdAf2MsIodvbj0vxd0qRSOoqfSS80Syb@dpg-cstj47t6l47c73eli48g-a/csci341_as3
+	dsn := "host=dpg-cstj47t6147c73eli48g-a user=posttest password=WdAf2MsIodvbj0vxd0qRS0oqfSS88Sy dbname=csci341_as3 port=5432 sslmode=require"
+	// dsn := fmt.Sprintf(
+	// 	"host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
+	// 	dbHost, dbUser, dbPassword, dbName, dbPort,
+	// )
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
